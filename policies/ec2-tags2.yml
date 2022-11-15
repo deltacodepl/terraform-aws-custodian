@@ -1,0 +1,23 @@
+policies:
+- name: ec2-auto-tag-start-stop
+  resource: aws.ec2
+  description: |
+    # Triggered when a EC2 Instance is started or stopped. Checks to see if it's missing the createdby tag. If missing it gets created with the value of the ID of whomever called the API. 
+  mode:
+    type: cloudtrail
+    role: default-custodian-role
+    events:
+      - source: ec2.amazonaws.com
+        event: StartInstances
+        ids: "responseElements.instancesSet.items[].instanceId"
+      - source: ec2.amazonaws.com
+        event: StopInstances
+        ids: "responseElements.instancesSet.items[].instanceId"
+    execution-options:
+      output_dir: s3://custodian-retryjoin-logs
+  filters:
+    - tag:created-by: absent
+  actions:
+    - type: auto-tag-user
+      tag: created-by
+      principal_id_tag: principal-id

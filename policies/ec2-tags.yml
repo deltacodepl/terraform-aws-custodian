@@ -1,0 +1,22 @@
+policies:
+- name: ec2-auto-tag
+  resource: aws.ec2
+  description: |
+    Find ec2 that has not been tagged with mandatory tag on-creation. 
+    Tag ec2 with the user who created it.
+  mode:
+    type: cloudtrail
+    role: default-custodian-role
+    events:
+    - source: ec2.amazonaws.com
+      event: RunInstances
+      ids: "responseElements.instancesSet.items[].instanceId"
+    execution-options:
+      output_dir: s3://custodian-retryjoin-logs
+    runtime: python3.8
+  filters:
+     - "tag:created-by": absent
+  actions:
+    - type: auto-tag-user
+      tag: created-by
+      principal_id_tag: principal-id

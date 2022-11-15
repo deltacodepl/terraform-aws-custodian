@@ -1,0 +1,20 @@
+policies:
+- name: root-user-login-detected
+  resource: account
+  description: |
+    Notifies Security and Cloud Admins teams on any AWS root user console logins
+  mode:
+    type: cloudtrail
+    role: default-custodian-role
+    events:
+      - ConsoleLogin
+    execution-options:
+      output_dir: s3://custodian-logs/retryjoin/
+    tags:
+      service: custodian
+  filters:
+    - type: event
+      key: "detail.userIdentity.type"
+      value_type: swap
+      op: in
+      value: Root 
