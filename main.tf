@@ -31,6 +31,10 @@ module "cloudtrial" {
   ]
 }
 
+module "sqs" {
+  source = "./modules/sqs"
+}
+
 # module "aws_cloudtrail" {
 #     source             = "trussworks/cloudtrail/aws"
 #     s3_bucket_name     = "main-cloudtrail-logs"
