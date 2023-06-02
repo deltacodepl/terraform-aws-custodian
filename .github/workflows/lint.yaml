@@ -1,16 +1,40 @@
-name: Check TFLint
+name: Lint
 on:
   push:
-    branches:
-      - "**"
+    branches: [ main ]
+  pull_request:
+
 jobs:
-  format-hcl:
-    runs-on: ubuntu-latest
+  tflint:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Check linting of Terraform files
-      uses: devops-infra/action-tflint@v0.3
+    - uses: actions/checkout@v3
+      name: Checkout source code
+
+    - uses: actions/cache@v3
+      name: Cache plugin dir
       with:
-        tflint_params: "--minimum-failure-severity=warning"
-        dir_filter: ".."
+        path: ~/.tflint.d/plugins
+        key: ${{ matrix.os }}-tflint-${{ hashFiles('.tflint.hcl') }}
+
+    - uses: terraform-linters/setup-tflint@v3
+      name: Setup TFLint
+      with:
+        tflint_version: v0.44.1
+
+    - name: Show version
+      run: tflint --version
+
+    - name: Init TFLint
+      run: tflint --init
+      env:
+        # https://github.com/terraform-linters/tflint/blob/master/docs/user-guide/plugins.md#avoiding-rate-limiting
+        GITHUB_TOKEN: ${{ github.token }}
+
+    - name: Run TFLint
+      run: tflint -f compact
