@@ -14,7 +14,8 @@ jobs:
       uses: devops-infra/action-format-hcl@v0.3.6
       with:
         check: true
-        
+        write: false
+
   tflint:
     runs-on: ${{ matrix.os }}
 
