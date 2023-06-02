@@ -13,4 +13,4 @@ jobs:
       uses: devops-infra/action-tflint@v0.3
       with:
         tflint_params: "--minimum-failure-severity=warning"
-        dir_filter: "*"
+        dir_filter: ".."
