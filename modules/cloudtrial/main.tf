@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "cloudtrial_log_group" {
 }
 
 resource "aws_cloudtrail" "global_cloudtrail" {
-  
+
   name                          = "global_${var.org_name}_cloudtrail"
   s3_bucket_name                = var.cloudtrail_bucket
   s3_key_prefix                 = "cloudtrail"

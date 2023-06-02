@@ -10,7 +10,7 @@ terraform {
       version = "~> 3.5"
     }
   }
-  
+
   # backend "s3" {
   #   profile        = "retryjoin"
   #   bucket         = "ccplayground-state"
@@ -28,11 +28,11 @@ provider "aws" {
 
   default_tags {
     tags = {
-      service     = "${lower(var.app_name)}"
-      env         =  var.app_environment
-      dataclass   = "internal"
-      createdby   = "kolszewski"
-      costcenter  = "governance"
+      service    = "${lower(var.app_name)}"
+      env        = var.app_environment
+      dataclass  = "internal"
+      createdby  = "kolszewski"
+      costcenter = "governance"
     }
   }
 }

@@ -1,7 +1,7 @@
 # Application Definition 
 app_name        = "Custodian"
 app_environment = "dev"
-org_name = "retryjoin"
+org_name        = "retryjoin"
 
 # Network
 vpc_cidr           = "10.11.0.0/16"

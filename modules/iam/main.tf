@@ -22,7 +22,7 @@ resource "aws_iam_role" "custodian_role" {
       }
     ]
   })
-  
+
 }
 
 resource "aws_iam_role_policy" "custodian_policy" {
@@ -97,12 +97,12 @@ resource "aws_iam_role_policy" "custodian_policy" {
           "s3:GetBucketPolicy",
           "s3:GetReplicationConfiguration",
           "s3:GetBucketVersioning",
-          "s3:GetBucketNotification " ,
+          "s3:GetBucketNotification ",
           "s3:GetLifeCycleConfiguration",
           "s3:ListAllMyBuckets",
           "s3:GetBucketAcl",
           "s3:GetBucketWebsite",
-          "s3:GetBucketLogging" ,
+          "s3:GetBucketLogging",
           "s3:DeleteBucket",
           "s3:PutBucketTagging",
           "s3:PutObject",
@@ -157,14 +157,14 @@ resource "aws_iam_role_policy" "custodian_ecs_task_policy" {
       },
       # used for ECS Exec
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "ssmmessages:CreateControlChannel",
           "ssmmessages:CreateDataChannel",
           "ssmmessages:OpenControlChannel",
           "ssmmessages:OpenDataChannel"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       }
     ]
   })

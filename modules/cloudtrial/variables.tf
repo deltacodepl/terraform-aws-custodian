@@ -1,10 +1,10 @@
 variable "cloudtrail_bucket" {
-  type = string
+  type        = string
   description = "bucket for cloudtrial logs"
 }
 
 variable "cloudtrail_role" {
-  type = string
+  type        = string
   description = "role for cloudtrial's cloudwatch log group"
 }
 

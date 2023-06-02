@@ -15,6 +15,6 @@ variable "app_environment" {
 }
 
 variable "org_name" {
-  type = string
+  type        = string
   description = "Namo of the org"
 }

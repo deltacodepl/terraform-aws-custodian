@@ -12,20 +12,20 @@
 # }
 
 module "iam" {
-  source = "./modules/iam"
+  source   = "./modules/iam"
   app_name = var.app_name
 }
 
-module "s3"{
-  source = "./modules/s3"
+module "s3" {
+  source   = "./modules/s3"
   org_name = var.org_name
 }
 
 module "cloudtrial" {
-  source = "./modules/cloudtrial"
+  source            = "./modules/cloudtrial"
   cloudtrail_bucket = module.s3.cloudtrail_bucket # module composition https://developer.hashicorp.com/terraform/language/modules/develop/composition
-  cloudtrail_role = module.iam.execution_role_arn
-  org_name = var.org_name
+  cloudtrail_role   = module.iam.execution_role_arn
+  org_name          = var.org_name
   depends_on = [
     module.s3
   ]
@@ -50,8 +50,8 @@ resource "aws_instance" "linux-server" {
   associate_public_ip_address = var.linux_associate_public_ip_address
   source_dest_check           = false
   key_name                    = aws_key_pair.key_pair.key_name
-  user_data                   = "${file("install-custodian.sh")}"
-  
+  user_data                   = file("install-custodian.sh")
+
   # root disk
   root_block_device {
     volume_size           = var.linux_root_volume_size
@@ -59,7 +59,7 @@ resource "aws_instance" "linux-server" {
     delete_on_termination = true
     encrypted             = true
   }
-  
+
 }
 
 # Associate Elastic IP to Linux Server

@@ -2,42 +2,42 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "custodian_state" {
-    bucket = "custodian-${var.org_name}-state"
+  bucket = "custodian-${var.org_name}-state"
 }
 
 resource "aws_s3_bucket" "custodian_policies" {
-    bucket = "custodian-${var.org_name}-policies"
+  bucket = "custodian-${var.org_name}-policies"
 }
 
 resource "aws_s3_bucket" "custodian_logs" {
-    bucket = "custodian-${var.org_name}-logs"
-    force_destroy = true
+  bucket        = "custodian-${var.org_name}-logs"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket" "cloudtrial_logs" {
-    bucket = "cloudtrail-${var.org_name}-logs"
-    force_destroy = true
+  bucket        = "cloudtrail-${var.org_name}-logs"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_acl" "custodian_state_acl" {
-    bucket = aws_s3_bucket.custodian_state.id
-    acl = "private"
+  bucket = aws_s3_bucket.custodian_state.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_acl" "custodian_policies_acl" {
-    bucket = aws_s3_bucket.custodian_policies.id
-    acl = "private"
+  bucket = aws_s3_bucket.custodian_policies.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_acl" "custodian_logs_acl" {
-    bucket = aws_s3_bucket.custodian_logs.id
-    acl = "private"
-    
+  bucket = aws_s3_bucket.custodian_logs.id
+  acl    = "private"
+
 }
 
 resource "aws_s3_bucket_acl" "cloudtrial_logs_acl" {
-    bucket = aws_s3_bucket.cloudtrial_logs.id
-    acl = "private"
+  bucket = aws_s3_bucket.cloudtrial_logs.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
@@ -53,7 +53,7 @@ resource "aws_s3_bucket_policy" "cloudtrail_bucket_policy" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "${ aws_s3_bucket.cloudtrial_logs.arn}"
+            "Resource": "${aws_s3_bucket.cloudtrial_logs.arn}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -76,8 +76,8 @@ POLICY
 
 resource "aws_s3_bucket_object" "custodian_policies_files" {
   for_each = fileset("./policies/", "**")
-  bucket = aws_s3_bucket.custodian_policies.id
-  key = each.value
-  source = "./policies/${each.value}"
-  etag = filemd5("./policies/${each.value}")
+  bucket   = aws_s3_bucket.custodian_policies.id
+  key      = each.value
+  source   = "./policies/${each.value}"
+  etag     = filemd5("./policies/${each.value}")
 }
