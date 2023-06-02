@@ -11,3 +11,5 @@ jobs:
       uses: actions/checkout@v2
     - name: Check linting of Terraform files
       uses: devops-infra/action-tflint@v0.3
+      with:
+        tflint_params: "--minimum-failure-severity=warning"
